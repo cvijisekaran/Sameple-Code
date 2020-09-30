@@ -1,0 +1,162 @@
+<div id="GridTableLHS">
+    <div id="top" class="padt20">
+        <div class="gridCornerLeft"></div>
+        <div class="gridHeaderLHS">Item Details</div>
+        <div class="gridCornerRight"></div>
+    </div>
+    <div class="clear"></div>
+    <div id="body" class="gridLHSBody">
+
+        <div id="gridContainerLHS">
+            <form [formGroup]="editItemForm" (ngSubmit)="edititemtoVmp()">
+                <table width="97%" border="0" cellspacing="0" cellpadding="0" class="padb5" id="searchDetails">
+                    <div *ngIf="!isvalidForm; then validA else notvalidA"></div>
+                    <tr>
+                        <ng-template #validA>
+                            <tr>
+                                <div class="messageError">Required field(s) missing</div>
+                            </tr>
+                            <td class="globalLabelError padt10"> Item UPC (0-0000000000-0)
+                                <span class="redStar"></span>
+                            </td>
+                        </ng-template>
+                        <ng-template #notvalidA>
+                            <td class="globalLabel"> Item UPC (0-0000000000-0)
+                                <span class="redStar"> </span>
+                            </td>
+                        </ng-template>
+                        <tr>
+                            <td class="padb10">
+                                <input type="text"
+                                 name="upc"
+                                 formControlName="upc" 
+                                 [(ngModel)]="itemSearchCriteriaModel.upc" 
+                                 maxlength="15" 
+                                 class="IN_Field195">
+                            </td>
+                        </tr>
+                        <tr>
+                            <input type="hidden" name="advSearch" value="false">
+                            <td align="left" class="padb10">
+                                <span (click)="showEditDiv()" style="color: blue;text-decoration: underline;cursor: pointer">Advance Search</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="hidden" name="advSearch" value="false" id="advSearch">
+
+                                <div id="searchBottlers" *ngIf="isEditDiv">
+
+                                    <table width="97%" border="0" cellspacing="0" cellpadding="0" class="padb5">
+                                        <tr>
+                                            <td class="globalLabel" align="left">Walmart Item Number</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" 
+                                                name="customerItemNumber" 
+                                                formControlName="customerItemNumber"
+                                                [(ngModel)]="itemSearchCriteriaModel.customerItemNumber"
+                                                maxlength="12" value="" class="IN_Field195">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="globalLabel" align="left">Beverage Category</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="padb10">
+                                                <select name="beverageCategoryId" 
+                                                (change)="getSearchItemPackageCategory($event.target.value)" 
+                                                id="beverageCategoryId" 
+                                                formControlName="beverageCategoryId"
+                                                [(ngModel)]="itemSearchCriteriaModel.beverageCategoryId"
+                                                class="inSelectMain IN_Select200">
+                                                <option value="-1">--Select--</option>
+                                                <option *ngFor="let bevcat of beverageCategoryId" [value]="bevcat.beverageCatId">
+                                                        {{bevcat.beverageCatName}}
+                                                </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="globalLabel" align="left">Package Category</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="padb10">
+                                                <select name="packageCategoryId" 
+                                                (change)="getSearchItemPackageGroup($event.target.value)"
+                                                 id="packageCategoryId" formControlName="packageCategoryId"
+                                                [(ngModel)]="itemSearchCriteriaModel.packageCategoryId" 
+                                                class="inSelectMain IN_Select200">
+                                                    <option value="-1">--Select--</option>
+                                                    <option *ngFor="let packcatId of packageCategoryId" [value]="packcatId.packageCategoryId">
+                                                        {{packcatId.packageCatName}}
+                                                    </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="globalLabel" align="left">Retail Package Group</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="padb10">
+                                                <select name="packageGroupId" 
+                                                id="packageGroupId" 
+                                                formControlName="packageGroupId" 
+                                                [(ngModel)]="itemSearchCriteriaModel.packageGroupId"
+                                                class="inSelectMain IN_Select200">
+                                                <option value="-1">--Select--</option>
+                                                <option *ngFor="let packGroupId of packageGroupId" [value]="packGroupId.packGrpId">
+                                                        {{packGroupId.packGrpName}}
+                                                </option>
+                                                </select>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="globalLabel" align="left">ISSCOM Beverage Product Code (4)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text"
+                                                 name="beverageProductCode" 
+                                                 formControlName="beverageProductCode" 
+                                                 [(ngModel)]="itemSearchCriteriaModel.beverageProductCode"
+                                                    class="IN_Field195">
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="globalLabel" align="left">ISSCOM Package Code (3)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <input type="text" 
+                                                name="packageCode" 
+                                                formControlName="packageCode" 
+                                                [(ngModel)]="itemSearchCriteriaModel.packageCode" 
+                                                class="IN_Field195">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">
+                                <!-- code for advance search -->
+
+
+                                <div id="findButton" style="display:none;">
+                                    <input id="goFindButton" name="goFindButton" type="summit" class="btnGo" value="Find" onclick="uifadeOut(); submitForm('bodyForm','item.do','view','searchVmpItems');"
+                                    />
+                                </div>
+                                <div id="goButton" style="display:block;">
+                                    <button id="goFindButton" name="goFindButton" type="submit" class="btnGo" value="Go">Go</button>
+                                </div>
+
+                            </td>
+                        </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
